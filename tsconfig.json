@@ -1,6 +1,26 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
-  }
+    "strict": true,
+    "types": ["react-native", "react-native-svg"],
+    "baseUrl": "./",
+    "paths": {
+      "~/*": ["*"]
+    },
+    "target": "esnext",
+    "module": "esnext",
+    "jsx": "react-native",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "strictNullChecks": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "declarations.d.ts" // Include declarations.d.ts in the root directory
+  ],
 }
