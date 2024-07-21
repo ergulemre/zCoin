@@ -1,5 +1,3 @@
-// src/features/websocket/websocketSlice.ts
-
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { WebSocketState, WebSocketMessage } from './types';
 
@@ -20,9 +18,7 @@ const websocketSlice = createSlice({
       // Logic to handle websocket connection initiation
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    websocketDisconnect: (state) => {
-      // Logic to handle websocket disconnection
-    },
+    websocketDisconnect: (state) => {},
     websocketError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
     },
