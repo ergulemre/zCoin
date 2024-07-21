@@ -6,7 +6,8 @@ zCoins App is a crypto tracker mobile application designed to provide users with
 
 Expo Android Apk Url : https://expo.dev/artifacts/eas/dHgjEwAVBavwehHyi9wv2W.apk
 
-https://github.com/user-attachments/assets/966ad409-2fcc-4b06-a2e0-ad4de7b0717a
+https://github.com/user-attachments/assets/6ac10cb1-8db4-47c2-8c55-1a329fe6be2c
+
 
 ## **Screens**
 
