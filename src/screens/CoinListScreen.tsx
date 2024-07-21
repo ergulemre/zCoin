@@ -3,14 +3,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FlatList, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { RootState, AppDispatch } from '../redux';
 import { fetchCoins } from '../redux/features/coin/coinSlice';
+import { useNavigation } from '@react-navigation/native';
 import {
   websocketConnect,
   websocketDisconnect,
   updateCoinSymbols,
 } from '../redux/features/websocket/websocketSlice';
 import CoinItem from '../components/CoinItem';
+import { RootStackParamList } from '../../types';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-const Home: React.FC = () => {
+type CoinListScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'CoinListScreen'
+>;
+
+const CoinListScreen: React.FC = () => {
+  const navigation = useNavigation<CoinListScreenNavigationProp>();
+
   const dispatch: AppDispatch = useDispatch();
   const coins = useSelector((state: RootState) => state.coin.coins);
 
@@ -51,6 +61,14 @@ const Home: React.FC = () => {
     setViewableItems(updatedCoinValues);
   }, [coins, websocketPrices]);
 
+  const handlePressCoinItem = (coin) => {
+    navigation.navigate('CoinDetailScreen', {
+      coinName: coin.name,
+      coinImage: coin.image,
+      item: coin,
+    });
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <Text style={styles.text}>Trending Topics</Text>
@@ -64,7 +82,7 @@ const Home: React.FC = () => {
             price={item.current_price}
             percentageChange24h={item.price_change_percentage_24h}
             image={item.image}
-            chartData={item.chartData}
+            onPress={() => handlePressCoinItem(item)} // Pass onPress handler
           />
         )}
         style={styles.container}
@@ -100,4 +118,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default CoinListScreen;

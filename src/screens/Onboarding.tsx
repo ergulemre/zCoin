@@ -19,7 +19,7 @@ const Onboarding: React.FC<Props> = ({ navigation }) => {
       useNativeDriver: true,
     }).start(() =>
       // Animation completed, navigate to Home Screen
-      navigation.navigate('Home')
+      navigation.navigate('CoinListScreen')
     );
   }, []);
 

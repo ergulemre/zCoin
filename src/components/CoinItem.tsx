@@ -1,15 +1,22 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
-import { formatPrice } from '../utils/formatPrice'; // Adjust the import path as needed
-
+import { convertAndFormatPrice } from '../utils/formatPrice'; // Adjust the import path as needed
 interface CoinItemProps {
   name: string;
   symbol: string;
   price: number;
   percentageChange24h: number;
-  image: string; // Add image prop
+  image: string;
+  onPress: () => void;
 }
 
 const CoinItem: React.FC<CoinItemProps> = ({
@@ -18,6 +25,7 @@ const CoinItem: React.FC<CoinItemProps> = ({
   price,
   percentageChange24h,
   image,
+  onPress,
 }) => {
   const [previousPrice, setPreviousPrice] = useState(price);
   const [highlight, setHighlight] = useState(false);
@@ -41,7 +49,7 @@ const CoinItem: React.FC<CoinItemProps> = ({
       const response = await axios.get(
         `https://api.binance.com/api/v3/klines?symbol=${symbol.toUpperCase()}USDT&interval=1h&limit=24`
       );
-      console.log(response.data);
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const closingPrices = response.data.map((item: any) => {
         // Ensure the closing price is a valid number
@@ -50,7 +58,7 @@ const CoinItem: React.FC<CoinItemProps> = ({
       });
       setChartData(closingPrices);
     } catch (error) {
-      console.error('Error fetching chart data:', error);
+      //console.error('Error fetching chart data:', error);
       setChartData([]);
     }
   };
@@ -64,23 +72,14 @@ const CoinItem: React.FC<CoinItemProps> = ({
       : 'red'
     : 'gray';
 
-  // Convert price to number
-  const convertToNumber = (price: string | number | undefined): number => {
-    if (typeof price === 'number') {
-      return price;
-    }
-    const num = parseFloat(String(price));
-    return isNaN(num) ? 0 : num; // Return 0 if conversion fails
-  };
-
   // Ensure price is a valid number before formatting
-  const formattedPrice = formatPrice(convertToNumber(price));
+  const formattedPrice = convertAndFormatPrice(price);
 
   // Truncate long coin names
   const truncatedName = name.length > 10 ? name.substring(0, 10) + '...' : name;
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.leftContainer}>
         <Image source={{ uri: image }} style={styles.coinImage} />
         <View>
@@ -132,7 +131,7 @@ const CoinItem: React.FC<CoinItemProps> = ({
           {percentageChange24h.toFixed(2)}%
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

@@ -27,3 +27,16 @@ export const formatPrice = (price: number | string | undefined): string => {
     return num.toPrecision(4); // Use scientific notation for very small prices
   }
 };
+
+/**
+ * Converts a price to a number and formats it.
+ *
+ * @param price The price to convert and format.
+ * @returns The formatted price as a string.
+ */
+export const convertAndFormatPrice = (
+  price: string | number | undefined
+): string => {
+  // Ensure price is a valid number before formatting
+  return formatPrice(price);
+};
